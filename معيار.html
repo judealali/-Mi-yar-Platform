@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>منصة "معيار" - نظام التحليل المتكامل للشركات الناشئة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #2980b9;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --bg: #f4f7f6;
+            --light-bg: #ffffff;
+            --text: #333333;
+            --border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            direction: rtl;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .header .project-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+            border-right: 3px solid var(--accent);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #3498db);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border);
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .step.completed .step-circle {
+            background: var(--success);
+            color: white;
+        }
+        
+        .step-text {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .card {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-left: 10px;
+            font-size: 24px;
+        }
+        
+        .type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .type-btn {
+            flex: 1;
+            padding: 18px 10px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .type-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .type-btn.active {
+            border-color: var(--accent);
+            background: #ebf5fb;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.1);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #444;
+        }
+        
+        .input-group .hint {
+            font-size: 13px;
+            color: #777;
+            margin-top: 4px;
+            font-weight: normal;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border 0.3s;
+            background: white;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .slider-container {
+            margin-top: 10px;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, var(--accent), #3498db);
+        }
+        
+        .btn-prev {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+        }
+        
+        .result-box {
+            background: white;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-right: 5px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-title i {
+            margin-left: 10px;
+        }
+        
+        .result-content {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .advice-item {
+            background: #fdfae6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            border-right: 4px solid var(--warning);
+            animation: slideIn 0.5s;
+        }
+        
+        .advice-item.success {
+            background: #eafaf1;
+            border-right-color: var(--success);
+        }
+        
+        .advice-item.danger {
+            background: #fdedec;
+            border-right-color: var(--danger);
+        }
+        
+        .advice-item.info {
+            background: #ebf5fb;
+            border-right-color: var(--accent);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .stage-indicator {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .stage-1 {
+            background: #ffeaa7;
+            color: #e17055;
+        }
+        
+        .stage-2 {
+            background: #a29bfe;
+            color: white;
+        }
+        
+        .stage-3 {
+            background: #55efc4;
+            color: #00b894;
+        }
+        
+        .financial-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 4px solid var(--accent);
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        .neutral {
+            color: var(--warning);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer .standards-note {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .type-selector {
+                flex-direction: column;
+            }
+            
+            .financial-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-ruler-combined"></i> منصة "معيار" - نظام التحليل المتكامل</h1>
+            <p class="subtitle">أداة ذكية لتقييم مشروعك وتقديم خطة عمل مخصصة بناءً على معايير الجودة المرنة</p>
+            <div class="project-info">
+                <p>جزء من رسالة ماجستير في إدارة الجودة - الجامعة الافتراضية السورية</p>
+                <p>إعداد الطالبة: جود محمد حسن العلي | الإشراف: الدكتور حسين قبلان</p>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+        
+        <div class="step-indicator">
+            <div class="step active" id="step1Indicator">
+                <div class="step-circle">1</div>
+                <div class="step-text">البيانات المالية</div>
+            </div>
+            <div class="step" id="step2Indicator">
+                <div class="step-circle">2</div>
+                <div class="step-text">التشخيص الإداري</div>
+            </div>
+            <div class="step" id="step3Indicator">
+                <div class="step-circle">3</div>
+                <div class="step-text">التقرير النهائي</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <!-- الخطوة 1: البيانات المالية -->
+            <div id="step1" class="section active">
+                <h2 class="section-title"><i class="fas fa-coins"></i> الخطوة 1: البيانات المالية</h2>
+                
+                <div class="type-selector">
+                    <div id="handBtn" class="type-btn active" onclick="setMode('hand')">
+                        <i class="fas fa-hands"></i>
+                        <div>عمل يدوي/تقليدي</div>
+                    </div>
+                    <div id="digiBtn" class="type-btn" onclick="setMode('digi')">
+                        <i class="fas fa-laptop-code"></i>
+                        <div>عمل رقمي/خدماتي</div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>ما هو هدفك الأساسي من المشروع؟</label>
+                    <select id="goal">
+                        <option value="side">دخل إضافي (تحسين مستوى المعيشة)</option>
+                        <option value="stable">مشروع مستقر ودائم</option>
+                        <option value="growth">نمو كبير وجذب مستثمرين</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label>عمر المشروع (بالأشهر):</label>
+                    <input type="number" id="age" placeholder="مثلاً: 6" min="1" max="120" value="6">
+                    <div class="hint">عدد الأشهر منذ بداية المشروع الفعلية</div>
+                </div>
+                
+                <div class="input-group">
+                    <label id="capLabel">رأس المال التأسيسي (الاستثمار الأولي):</label>
+                    <input type="number" id="capital" placeholder="ل.س" min="0" value="0">
+                    <div class="hint" id="capHint">تكلفة المعدات، الأجهزة، التراخيص الأولية</div>
+                </div>
+                
+                <div class="input-group">
+                    <label id="costLabel">إجمالي تكاليف التشغيل (منذ البداية):</label>
+                    <input type="number" id="costs" placeholder="ل.س" min="0" value="0">
+                    <div class="hint" id="costHint">تكاليف المواد الخام، الإيجار، المرافق، النقل</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>إجمالي المبيعات/الإيرادات (منذ البداية):</label>
+                    <input type="number" id="sales" placeholder="ل.س" min="0" value="0">
+                    <div class="hint">مجموع الدخل من جميع المبيعات أو الخدمات</div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-next" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> التالي: التشخيص الإداري
+                    </button>
+                </div>
+            </div>
+            
+            <!-- الخطوة 2: التشخيص الإداري -->
+            <div id="step2" class="section">
+                <h2 class="section-title"><i class="fas fa-clipboard-check"></i> الخطوة 2: التشخيص الإداري</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 25px;">قيم وضعك الحالي من 1 (ضعيف) إلى 5 (ممتاز) في كل مجال</p>
+                
+                <div class="input-group">
+                    <label>1. مدى تنظيمك للعمليات اليومية:</label>
+                    <select id="q_process">
+                        <option value="1">1 - أعمل بعشوائية بدون تنظيم</option>
+                        <option value="2">2 - لدي روتين بسيط</option>
+                        <option value="3" selected>3 - أعمل بطريقة منظمة في ذهني</option>
+                        <option value="4">4 - كتبت خطوات عملي الأساسية</option>
+                        <option value="5">5 - لدي دليل عملي واضح أتبعه</option>
+                    </select>
+                    <div class="hint">هل لديك طريقة واضحة للعمل؟ (استقبال طلب، تنفيذ، تسليم)</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>2. متابعة الدخل والمصروفات:</label>
+                    <select id="q_finance">
+                        <option value="1">1 - لا أسجل أي شيء</option>
+                        <option value="2">2 - أتذكر الأرقام الكبيرة فقط</option>
+                        <option value="3" selected>3 - أسجل في دفتر أحياناً</option>
+                        <option value="4">4 - أسجل يومياً في ملف Excel</option>
+                        <option value="5">5 - لدي نظام مالي دقيق ومستمر</option>
+                    </select>
+                    <div class="hint">كيف تتابع دخلك ونفقاتك؟</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>3. معرفتك بالسوق والمنافسين:</label>
+                    <select id="q_market">
+                        <option value="1">1 - لا أعرف المنافسين</option>
+                        <option value="2">2 - أعرف بعض الأسماء فقط</option>
+                        <option value="3" selected>3 - أعرف أسعار المنافسين</option>
+                        <option value="4">4 - درست نقاط قوة وضعف المنافسين</option>
+                        <option value="5">5 - أعرف السوق جيداً وأتابع التغييرات</option>
+                    </select>
+                    <div class="hint">مدى درايتك بالسوق المحلي والمنافسين</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>4. وجود خطة للمستقبل:</label>
+                    <select id="q_growth">
+                        <option value="1">1 - لا أفكر في المستقبل</option>
+                        <option value="2">2 - لدي أفكار غير واضحة</option>
+                        <option value="3" selected>3 - أريد زيادة المبيعات</option>
+                        <option value="4">4 - لدي خطة مكتوبة للعام القادم</option>
+                        <option value="5">5 - لدي خطة متكاملة للتوسع</option>
+                    </select>
+                    <div class="hint">هل لديك رؤية وخطط لمستقبل مشروعك؟</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>5. اهتمامك برأي العملاء:</label>
+                    <select id="q_quality">
+                        <option value="1">1 - لا أسأل العملاء عن رأيهم</option>
+                        <option value="2">2 - أحياناً أسمع تعليقات</option>
+                        <option value="3" selected>3 - أسأل العملاء عن رأيهم أحياناً</option>
+                        <option value="4">4 - أطلب رأي العملاء بانتظام</option>
+                        <option value="5">5 - لدي نظام لقياس رضا العملاء</option>
+                    </select>
+                    <div class="hint">كيف تتعرف على رأي عملائك في منتجك/خدمتك؟</div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-prev" onclick="goToStep(1)">
+                        <i class="fas fa-arrow-right"></i> رجوع
+                    </button>
+                    <button class="btn btn-next" onclick="runAdvancedAnalysis()">
+                        <i class="fas fa-chart-bar"></i> إنهاء التحليل وعرض النتائج
+                    </button>
+                </div>
+            </div>
+            
+            <!-- الخطوة 3: التقرير النهائي -->
+            <div id="step3" class="section">
+                <h2 class="section-title"><i class="fas fa-file-alt"></i> التقرير الاستشاري النهائي</h2>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-chart-pie"></i> ملخص أدائك
+                    </div>
+                    <div class="result-content">
+                        <div id="stageIndicator" class="stage-indicator stage-1">مرحلة التأسيس</div>
+                        <div id="resSummary"></div>
+                        
+                        <div class="financial-metrics">
+                            <div class="metric-box">
+                                <div class="metric-label">متوسط الربح الشهري</div>
+                                <div id="metricMonthlyProfit" class="metric-value">0 ل.س</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-label">هامش الربح</div>
+                                <div id="metricProfitMargin" class="metric-value">0%</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-label">مؤشر النمو</div>
+                                <div id="metricGrowthRate" class="metric-value neutral">0%</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-label">نتيجة التشخيص</div>
+                                <div id="metricMaturityScore" class="metric-value">0/5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-bullseye"></i> توصيات حسب هدفك
+                    </div>
+                    <div class="result-content">
+                        <div id="resGoalAdvice"></div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-tasks"></i> خطوات عملية مقترحة
+                    </div>
+                    <div class="result-content">
+                        <div id="resActionPlan"></div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-lightbulb"></i> نصائح بحسب معايير الجودة
+                    </div>
+                    <div class="result-content">
+                        <div id="resQualityTips"></div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-reset" onclick="resetAll()">
+                        <i class="fas fa-redo"></i> إعادة التحليل من جديد
+                    </button>
+                    <button class="btn btn-prev" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-right"></i> تعديل البيانات
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 منصة "معيار" - نظام التحليل المتكامل للشركات الناشئة</p>
+            <p>تم تطوير هذه المنصة بناءً على معايير الجودة المرنة للشركات الناشئة</p>
+            <div class="standards-note">
+                <p><strong>المعايير المعتمدة في بناء الأسئلة والتقييم:</strong></p>
+                <p>• معايير ISO 9001 المبسطة للشركات الصغيرة • أطر الجودة اللينة (Soft TQM) • معايير نجاح المشاريع الريادية</p>
+                <p style="margin-top: 8px; color: var(--accent); font-weight: bold;">
+                    جزء من رسالة ماجستير في إدارة الجودة | إعداد: جود محمد حسن العلي | الإشراف: الدكتور حسين قبلان
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'hand';
+        let currentStep = 1;
+        let growthRate = 0.1;
+        
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('handBtn').classList.toggle('active', mode === 'hand');
+            document.getElementById('digiBtn').classList.toggle('active', mode === 'digi');
+            
+            document.getElementById('capLabel').innerText = mode === 'hand' 
+                ? "رأس المال (عدة، ماكينات، أدوات):" 
+                : "رأس المال (أجهزة، برامج، تراخيص):";
+            
+            document.getElementById('costLabel').innerText = mode === 'hand' 
+                ? "تكاليف التشغيل (مواد خام، نقل، طاقة):" 
+                : "تكاليف التشغيل (إنترنت، كهرباء، اشتراكات):";
+            
+            document.getElementById('capHint').innerText = mode === 'hand' 
+                ? "تكلفة شراء المعدات والأدوات اللازمة للبدء" 
+                : "تكلفة الأجهزة والبرامج والتراخيص اللازمة للبدء";
+            
+            document.getElementById('costHint').innerText = mode === 'hand' 
+                ? "تكاليف المواد الخام، النقل، الطاقة المستهلكة" 
+                : "تكاليف الإنترنت، الكهرباء، الاشتراكات الشهرية";
+        }
+        
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => {
+                s.classList.remove('active', 'completed');
+            });
+            
+            for (let i = 1; i <= step; i++) {
+                const stepEl = document.getElementById(`step${i}Indicator`);
+                if (i === step) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.classList.add('completed');
+                }
+            }
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            
+            const progress = ((step - 1) / 2) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            currentStep = step;
+            window.scrollTo(0, 0);
+        }
+        
+        function runAdvancedAnalysis() {
+            const age = parseFloat(document.getElementById('age').value) || 1;
+            const capital = parseFloat(document.getElementById('capital').value) || 0;
+            const costs = parseFloat(document.getElementById('costs').value) || 0;
+            const sales = parseFloat(document.getElementById('sales').value) || 0;
+            const goal = document.getElementById('goal').value;
+            
+            const netProfit = sales - costs;
+            const monthlyProfit = netProfit / age;
+            const profitMargin = sales > 0 ? (netProfit / sales) * 100 : 0;
+            const remainingCapital = capital - netProfit;
+            const monthsToRecover = monthlyProfit > 0 ? Math.ceil(Math.max(0, remainingCapital) / monthlyProfit) : 0;
+            
+            const processScore = parseInt(document.getElementById('q_process').value);
+            const financeScore = parseInt(document.getElementById('q_finance').value);
+            const marketScore = parseInt(document.getElementById('q_market').value);
+            const growthScore = parseInt(document.getElementById('q_growth').value);
+            const qualityScore = parseInt(document.getElementById('q_quality').value);
+            
+            const avgMaturityScore = (processScore + financeScore + marketScore + growthScore + qualityScore) / 5;
+            
+            let projectStage, stageClass, stageDescription;
+            
+            if (avgMaturityScore <= 2) {
+                projectStage = "مرحلة التأسيس";
+                stageClass = "stage-1";
+                stageDescription = "مرحلة البداية والتركيز على البقاء وإثبات الفكرة";
+            } else if (avgMaturityScore <= 3.5) {
+                projectStage = "مرحلة النمو والاستقرار";
+                stageClass = "stage-2";
+                stageDescription = "مرحلة توسيع النشاط وبناء نظام عمل مستقر";
+            } else {
+                projectStage = "مرحلة التحول المؤسسي";
+                stageClass = "stage-3";
+                stageDescription = "مرحلة التحول إلى منشأة نظامية وجذب الاستثمار";
+            }
+            
+            document.getElementById('stageIndicator').className = `stage-indicator ${stageClass}`;
+            document.getElementById('stageIndicator').innerText = projectStage;
+            
+            document.getElementById('resSummary').innerHTML = `
+                <p><strong>${stageDescription}</strong></p>
+                <p>الربح الصافي الإجمالي: <b>${formatCurrency(netProfit)} ل.س</b></p>
+                ${remainingCapital <= 0 
+                    ? `<p style="color:var(--success);"><i class="fas fa-check-circle"></i> لقد استرددت رأس مالك بالكامل</p>` 
+                    : `<p>متبقي لاسترداد رأس المال: <b>${formatCurrency(remainingCapital)} ل.س</b> (${monthsToRecover} شهر بمعدل الربح الحالي)</p>`}
+            `;
+            
+            document.getElementById('metricMonthlyProfit').innerText = `${formatCurrency(monthlyProfit)} ل.س`;
+            document.getElementById('metricMonthlyProfit').className = `metric-value ${monthlyProfit > 0 ? 'positive' : 'negative'}`;
+            
+            document.getElementById('metricProfitMargin').innerText = `${profitMargin.toFixed(1)}%`;
+            document.getElementById('metricProfitMargin').className = `metric-value ${profitMargin > 20 ? 'positive' : profitMargin > 0 ? 'neutral' : 'negative'}`;
+            
+            document.getElementById('metricGrowthRate').innerText = `${growthRate * 100}%`;
+            document.getElementById('metricGrowthRate').className = `metric-value ${growthRate > 0.15 ? 'positive' : growthRate > 0.05 ? 'neutral' : 'negative'}`;
+            
+            document.getElementById('metricMaturityScore').innerText = `${avgMaturityScore.toFixed(1)}/5`;
+            
+            const goalAdviceElement = document.getElementById('resGoalAdvice');
+            let goalAdvice = "";
+            
+            if (goal === 'side') {
+                goalAdvice = `
+                    <div class="advice-item info">
+                        <i class="fas fa-home"></i> <strong>هدفك: دخل إضافي</strong><br>
+                        ركز على تقليل التكاليف وزيادة سرعة العمل لتربح أكثر دون جهد إضافي.
+                        اختر المنتجات ذات الربح الأكبر.
+                    </div>
+                `;
+            } else if (goal === 'stable') {
+                goalAdvice = `
+                    <div class="advice-item info">
+                        <i class="fas fa-balance-scale"></i> <strong>هدفك: مشروع مستقر</strong><br>
+                        وازن بين الربح والنمو. ابني علاقات مع عملاء دائمين وقدم خدمة ممتازة.
+                    </div>
+                `;
+            } else {
+                goalAdvice = `
+                    <div class="advice-item info">
+                        <i class="fas fa-rocket"></i> <strong>هدفك: نمو كبير</strong><br>
+                        الربح مهم، ولكن الأهم هو إظهار أن مشروعك ينمو. وثق كل شيء وابنِ نظاماً يمكن تكراره.
+                    </div>
+                `;
+            }
+            
+            goalAdviceElement.innerHTML = goalAdvice;
+            
+            const actionPlanElement = document.getElementById('resActionPlan');
+            let actionPlan = "";
+            
+            if (projectStage === "مرحلة التأسيس") {
+                actionPlan = `
+                    <div class="advice-item">
+                        <strong>الخطوات السريعة (الأسبوع القادم):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>اكتب خطوات عملك الأساسية في 5 نقاط</li>
+                            <li>ابدأ دفتراً لتسجيل الدخل والمصروفات</li>
+                            <li>تعرف على 3 منافسين رئيسيين</li>
+                        </ul>
+                    </div>
+                    <div class="advice-item">
+                        <strong>خطوات الشهر القادم:</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>احسب ربح كل منتج/خدمة</li>
+                            <li>اسأل 5 عملاء عن رأيهم</li>
+                            <li>حدد هدف مبيعات واقعي</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (projectStage === "مرحلة النمو والاستقرار") {
+                actionPlan = `
+                    <div class="advice-item">
+                        <strong>الخطوات السريعة (الأسبوع القادم):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>حول خطوات عملك إلى دليل مكتوب</li>
+                            <li>أنشئ ملف Excel للمال (دخل، مصروفات، ربح)</li>
+                            <li>حلل أقوى منافس لك</li>
+                        </ul>
+                    </div>
+                    <div class="advice-item">
+                        <strong>خطوات الشهر القادم:</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>اطلب رأي العملاء بانتظام</li>
+                            <li>اكتب خطة عمل لـ 6 أشهر</li>
+                            <li>زود ربحك بنسبة 5% على الأقل</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                actionPlan = `
+                    <div class="advice-item success">
+                        <strong>الخطوات السريعة (الأسبوع القادم):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>حدد مسؤوليات كل شخص في العمل</li>
+                            <li>أعد قوائم مالية بسيطة</li>
+                            <li>جهز ملفاً يلخص نجاح مشروعك</li>
+                        </ul>
+                    </div>
+                    <div class="advice-item success">
+                        <strong>خطوات الشهر القادم:</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>تعرف على شروط تحويل مشروعك لشركة</li>
+                            <li>اكتب خطة للتوسع لمدة سنة</li>
+                            <li>ابنِ نظاماً للتعامل مع المشاكل</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            actionPlanElement.innerHTML = actionPlan;
+            
+            const qualityTipsElement = document.getElementById('resQualityTips');
+            let qualityTips = "";
+            
+            if (processScore <= 2) {
+                qualityTips += `
+                    <div class="advice-item danger">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>تحسين تنظيم العمل:</strong>
+                        ابدأ بكتابة 3 خطوات أساسية لعملك. هذا يساعدك على العمل بسرعة وجودة.
+                    </div>
+                `;
+            }
+            
+            if (financeScore <= 2) {
+                qualityTips += `
+                    <div class="advice-item danger">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>تحسين المتابعة المالية:</strong>
+                        سجل دخلك ونفقاتك يومياً. حتى لو بدفتر صغير. لا تعتمد على ذاكرتك.
+                    </div>
+                `;
+            }
+            
+            if (marketScore <= 2) {
+                qualityTips += `
+                    <div class="advice-item">
+                        <i class="fas fa-lightbulb"></i> <strong>تحسين معرفة السوق:</strong>
+                        خصص وقتاً لدراسة المنافسين. قارن الأسعار والجودة. هذا يساعدك على التميز.
+                    </div>
+                `;
+            }
+            
+            if (qualityScore <= 2) {
+                qualityTips += `
+                    <div class="advice-item">
+                        <i class="fas fa-lightbulb"></i> <strong>تحسين رضا العملاء:</strong>
+                        اسأل عملاءك عن رأيهم. استمع لهم وحسن من خدمتك. العملاء السعداء يعودون ويجلبون غيرهم.
+                    </div>
+                `;
+            }
+            
+            if (qualityTips === "") {
+                qualityTips = `
+                    <div class="advice-item success">
+                        <i class="fas fa-check-circle"></i> <strong>ممتاز!</strong>
+                        أنت تسير على الطريق الصحيح. استمر في تحسين عملك خطوة بخطوة.
+                    </div>
+                `;
+            }
+            
+            qualityTipsElement.innerHTML = qualityTips;
+            
+            goToStep(3);
+        }
+        
+        function resetAll() {
+            if (confirm("هل تريد مسح كل البيانات والبدء من جديد؟")) {
+                location.reload();
+            }
+        }
+        
+        function formatCurrency(amount) {
+            if (isNaN(amount)) return "0";
+            return Math.round(amount).toLocaleString('ar-EG');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            setMode('hand');
+            
+            const financialInputs = ['sales', 'costs', 'capital', 'age'];
+            financialInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    calculateGrowthRate();
+                });
+            });
+        });
+        
+        function calculateGrowthRate() {
+            const sales = parseFloat(document.getElementById('sales').value) || 0;
+            const age = parseFloat(document.getElementById('age').value) || 1;
+            
+            if (age <= 1 || sales <= 0) {
+                growthRate = 0.1;
+                return;
+            }
+            
+            const avgMonthlySales = sales / age;
+            
+            if (avgMonthlySales < 100000) {
+                growthRate = 0.15;
+            } else if (avgMonthlySales < 500000) {
+                growthRate = 0.10;
+            } else {
+                growthRate = 0.05;
+            }
+        }
+    </script>
+</body>
+</html>
