@@ -287,6 +287,10 @@
             background: linear-gradient(135deg, var(--danger), #c0392b);
         }
         
+        .btn-finish {
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+        }
+        
         .result-box {
             background: white;
             border: 1px solid #eee;
@@ -476,6 +480,10 @@
             </div>
             <div class="step" id="step3Indicator">
                 <div class="step-circle">3</div>
+                <div class="step-text">التحول المؤسسي</div>
+            </div>
+            <div class="step" id="step4Indicator">
+                <div class="step-circle">4</div>
                 <div class="step-text">التقرير النهائي</div>
             </div>
         </div>
@@ -496,13 +504,15 @@
                     </div>
                 </div>
                 
+                <!-- السؤال المهم: هدف المشروع -->
                 <div class="input-group">
                     <label>ما هو هدفك الأساسي من المشروع؟</label>
                     <select id="goal">
                         <option value="side">دخل إضافي (تحسين مستوى المعيشة)</option>
-                        <option value="stable">مشروع مستقر ودائم</option>
-                        <option value="growth">نمو كبير وجذب مستثمرين</option>
+                        <option value="stable">استمرار واستقرار المشروع</option>
+                        <option value="growth">نمو وتوسع كبير</option>
                     </select>
+                    <div class="hint">اختر الهدف الذي يتوافق مع طموحاتك للمشروع</div>
                 </div>
                 
                 <div class="input-group">
@@ -605,19 +615,128 @@
                     <button class="btn btn-prev" onclick="goToStep(1)">
                         <i class="fas fa-arrow-right"></i> رجوع
                     </button>
-                    <button class="btn btn-next" onclick="runAdvancedAnalysis()">
-                        <i class="fas fa-chart-bar"></i> إنهاء التحليل وعرض النتائج
+                    <button class="btn btn-next" onclick="goToStep(3)">
+                        <i class="fas fa-building"></i> التالي: التحول المؤسسي
                     </button>
                 </div>
             </div>
             
-            <!-- الخطوة 3: التقرير النهائي -->
+            <!-- الخطوة 3: التحول المؤسسي -->
             <div id="step3" class="section">
-                <h2 class="section-title"><i class="fas fa-file-alt"></i> التقرير الاستشاري النهائي</h2>
+                <h2 class="section-title"><i class="fas fa-building"></i> الخطوة 3: تحليل الاستعداد للصفة الاعتبارية</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 25px;">تقييم مدى استعداد مشروعك للتحول إلى شركة ذات مسؤولية محدودة (رأس المال: 50 مليون ليرة سورية)</p>
+                
+                <div class="input-group">
+                    <label>1. هيكل الملكية والإدارة:</label>
+                    <select id="q_ownership">
+                        <option value="1">1 - مالك واحد يدير كل شيء</option>
+                        <option value="2">2 - مالك مع مساعدين غير رسميين</option>
+                        <option value="3" selected>3 - فريق عمل واضح الأدوار</option>
+                        <option value="4">4 - شركاء مسجلين رسمياً</option>
+                        <option value="5">5 - هيكل إداري واضح مع مديرين</option>
+                    </select>
+                    <div class="hint">وضوح الهيكل التنظيمي وتوزيع المسؤوليات</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>2. توثيق العمليات والإجراءات:</label>
+                    <select id="q_documentation">
+                        <option value="1">1 - لا يوجد أي إجراءات مكتوبة</option>
+                        <option value="2">2 - بعض الملاحظات الشخصية</option>
+                        <option value="3" selected>3 - إجراءات أساسية مكتوبة</option>
+                        <option value="4">4 - دليل عملي متكامل</option>
+                        <option value="5">5 - نظام إلكتروني للإجراءات</option>
+                    </select>
+                    <div class="hint">مدى توثيق عمليات التشغيل والإدارة</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>3. النظام المالي والمحاسبي:</label>
+                    <select id="q_accounting">
+                        <option value="1">1 - لا يوجد سجلات مالية</option>
+                        <option value="2">2 - دفتر يدوي بسيط</option>
+                        <option value="3" selected>3 - ملف إكسل منظم</option>
+                        <option value="4">4 - برنامج محاسبي بسيط</option>
+                        <option value="5">5 - نظام محاسبي متكامل مع محاسب</option>
+                    </select>
+                    <div class="hint">مدى احترافية النظام المحاسبي</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>4. الاستدامة المالية (السيولة):</label>
+                    <select id="q_liquidity">
+                        <option value="1">1 - أرباح غير منتظمة</option>
+                        <option value="2">2 - أرباح شهرية بسيطة</option>
+                        <option value="3" selected>3 - أرباح شهرية منتظمة</option>
+                        <option value="4">4 - قدرة على الادخار والتوسع</option>
+                        <option value="5">5 - سيولة عالية مع احتياطي</option>
+                    </select>
+                    <div class="hint">قدرة المشروع على تحقيق أرباح مستمرة</div>
+                </div>
+                
+                <div class="input-group">
+                    <label>5. التزام بالقوانين واللوائح:</label>
+                    <select id="q_compliance">
+                        <option value="1">1 - لا يوجد تراخيص رسمية</option>
+                        <option value="2">2 - تراخيص أساسية فقط</option>
+                        <option value="3" selected>3 - جميع التراخيص المطلوبة</option>
+                        <option value="4">4 - متابعة للتحديثات القانونية</option>
+                        <option value="5">5 - نظام متكامل للامتثال القانوني</option>
+                    </select>
+                    <div class="hint">مدى الالتزام بالمتطلبات القانونية السورية</div>
+                </div>
                 
                 <div class="result-box">
                     <div class="result-title">
-                        <i class="fas fa-chart-pie"></i> ملخص أدائك
+                        <i class="fas fa-calculator"></i> محاكاة رأس المال المطلوب
+                    </div>
+                    <div class="result-content">
+                        <div style="text-align: center; margin: 15px 0;">
+                            <div style="font-size: 18px; color: var(--primary); font-weight: bold;">
+                                رأس المال القانوني المطلوب: 50,000,000 ل.س
+                            </div>
+                            <div style="font-size: 14px; color: #666; margin-top: 5px;">
+                                (الحد الأدنى للشركة محدودة المسؤولية في سوريا)
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>قيمة أصول المشروع الحالية (التقديرية):</label>
+                            <input type="number" id="currentAssets" placeholder="ل.س" min="0" value="0">
+                            <div class="hint">قيمة المعدات، المخزون، الأثاث، الأجهزة، إلخ.</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>قدرتك على زيادة الاستثمار:</label>
+                            <select id="investmentCapacity">
+                                <option value="1">1 - لا أستطيع زيادة الاستثمار</option>
+                                <option value="2">2 - أستطيع زيادة 10% من رأس المال</option>
+                                <option value="3" selected>3 - أستطيع زيادة 25% من رأس المال</option>
+                                <option value="4">4 - أستطيع زيادة 50% من رأس المال</option>
+                                <option value="5">5 - أستطيع تغطية الرأس المال كاملاً</option>
+                            </select>
+                            <div class="hint">قدرتك المالية على تمويل الفرق لبلوغ 50 مليون ليرة</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-prev" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-right"></i> رجوع
+                    </button>
+                    <button class="btn btn-finish" onclick="runComprehensiveAnalysis()">
+                        <i class="fas fa-file-alt"></i> إنشاء التقرير النهائي
+                    </button>
+                </div>
+            </div>
+            
+            <!-- الخطوة 4: التقرير النهائي -->
+            <div id="step4" class="section">
+                <h2 class="section-title"><i class="fas fa-file-alt"></i> التقرير الاستشاري النهائي الشامل</h2>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-chart-pie"></i> ملخص أدائك الحالي
                     </div>
                     <div class="result-content">
                         <div id="stageIndicator" class="stage-indicator stage-1">مرحلة التأسيس</div>
@@ -646,7 +765,40 @@
                 
                 <div class="result-box">
                     <div class="result-title">
-                        <i class="fas fa-bullseye"></i> توصيات حسب هدفك
+                        <i class="fas fa-chart-line"></i> مؤشر الجاهزية للتحول المؤسسي
+                    </div>
+                    <div class="result-content">
+                        <div id="corporateReadinessIndicator" class="stage-indicator stage-1">جاهزية منخفضة</div>
+                        <div id="readinessScoreDisplay"></div>
+                        <div class="progress-bar" style="margin: 20px 0; height: 12px;">
+                            <div id="readinessProgress" class="progress" style="height: 100%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span>غير جاهز</span>
+                            <span id="readinessPercentage">0%</span>
+                            <span>جاهز تماماً</span>
+                        </div>
+                        
+                        <div id="capitalGapResult" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>رأس المال الحالي:</span>
+                                <span id="currentCapitalValue" style="font-weight: bold;">0 ل.س</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>الفجوة المطلوبة:</span>
+                                <span id="capitalGapValue" style="font-weight: bold; color: var(--danger);">0 ل.س</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>نسبة التغطية:</span>
+                                <span id="coveragePercentage" style="font-weight: bold; color: var(--accent);">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <i class="fas fa-bullseye"></i> توصيات حسب هدفك: <span id="goalDisplay"></span>
                     </div>
                     <div class="result-content">
                         <div id="resGoalAdvice"></div>
@@ -664,6 +816,15 @@
                 
                 <div class="result-box">
                     <div class="result-title">
+                        <i class="fas fa-road"></i> خطة التحول المؤسسي المخصصة
+                    </div>
+                    <div class="result-content">
+                        <div id="transformationPlan"></div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">
                         <i class="fas fa-lightbulb"></i> نصائح بحسب معايير الجودة
                     </div>
                     <div class="result-content">
@@ -672,11 +833,11 @@
                 </div>
                 
                 <div class="btn-group">
+                    <button class="btn btn-prev" onclick="goToStep(3)">
+                        <i class="fas fa-arrow-right"></i> تعديل البيانات
+                    </button>
                     <button class="btn btn-reset" onclick="resetAll()">
                         <i class="fas fa-redo"></i> إعادة التحليل من جديد
-                    </button>
-                    <button class="btn btn-prev" onclick="goToStep(2)">
-                        <i class="fas fa-arrow-right"></i> تعديل البيانات
                     </button>
                 </div>
             </div>
@@ -739,19 +900,23 @@
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
             
-            const progress = ((step - 1) / 2) * 100;
+            const progress = ((step - 1) / 3) * 100;
             document.getElementById('progressBar').style.width = `${progress}%`;
             
             currentStep = step;
             window.scrollTo(0, 0);
         }
         
-        function runAdvancedAnalysis() {
+        function runComprehensiveAnalysis() {
+            // === 1. تحليل البيانات المالية والإدارية ===
             const age = parseFloat(document.getElementById('age').value) || 1;
             const capital = parseFloat(document.getElementById('capital').value) || 0;
             const costs = parseFloat(document.getElementById('costs').value) || 0;
             const sales = parseFloat(document.getElementById('sales').value) || 0;
             const goal = document.getElementById('goal').value;
+            const goalText = document.getElementById('goal').options[document.getElementById('goal').selectedIndex].text;
+            
+            document.getElementById('goalDisplay').textContent = `(${goalText})`;
             
             const netProfit = sales - costs;
             const monthlyProfit = netProfit / age;
@@ -805,35 +970,98 @@
             
             document.getElementById('metricMaturityScore').innerText = `${avgMaturityScore.toFixed(1)}/5`;
             
+            // === 2. تحليل الجاهزية للتحول المؤسسي ===
+            const ownershipScore = parseInt(document.getElementById('q_ownership').value);
+            const docScore = parseInt(document.getElementById('q_documentation').value);
+            const accountingScore = parseInt(document.getElementById('q_accounting').value);
+            const liquidityScore = parseInt(document.getElementById('q_liquidity').value);
+            const complianceScore = parseInt(document.getElementById('q_compliance').value);
+            
+            const totalReadinessScore = ownershipScore + docScore + accountingScore + liquidityScore + complianceScore;
+            const maxScore = 25;
+            const readinessPercentage = (totalReadinessScore / maxScore) * 100;
+            
+            const currentAssets = parseFloat(document.getElementById('currentAssets').value) || 0;
+            const investmentCapacity = parseInt(document.getElementById('investmentCapacity').value);
+            const requiredCapital = 50000000;
+            
+            let additionalCapacity = 0;
+            switch(investmentCapacity) {
+                case 1: additionalCapacity = 0; break;
+                case 2: additionalCapacity = requiredCapital * 0.1; break;
+                case 3: additionalCapacity = requiredCapital * 0.25; break;
+                case 4: additionalCapacity = requiredCapital * 0.5; break;
+                case 5: additionalCapacity = requiredCapital; break;
+            }
+            
+            const totalAvailableCapital = currentAssets + additionalCapacity;
+            const capitalGap = Math.max(0, requiredCapital - totalAvailableCapital);
+            const coveragePercentage = (totalAvailableCapital / requiredCapital) * 100;
+            
+            document.getElementById('currentCapitalValue').textContent = `${formatCurrency(totalAvailableCapital)} ل.س`;
+            document.getElementById('capitalGapValue').textContent = `${formatCurrency(capitalGap)} ل.س`;
+            document.getElementById('coveragePercentage').textContent = `${coveragePercentage.toFixed(1)}%`;
+            
+            let readinessLevel, levelClass, levelDescription;
+            
+            if (readinessPercentage < 40) {
+                readinessLevel = "جاهزية منخفضة";
+                levelClass = "stage-1";
+                levelDescription = "مشروعك يحتاج إلى تطوير كبير في الجوانب النظامية قبل التقدم للصفة الاعتبارية";
+            } else if (readinessPercentage < 70) {
+                readinessLevel = "جاهزية متوسطة";
+                levelClass = "stage-2";
+                levelDescription = "مشروعك على الطريق الصحيح لكن يحتاج إلى تحسين بعض الجوانب قبل التحول";
+            } else {
+                readinessLevel = "جاهزية عالية";
+                levelClass = "stage-3";
+                levelDescription = "مشروعك جاهز تقريباً للتحول المؤسسي. ركز على متطلبات رأس المال";
+            }
+            
+            document.getElementById('corporateReadinessIndicator').className = `stage-indicator ${levelClass}`;
+            document.getElementById('corporateReadinessIndicator').textContent = readinessLevel;
+            
+            document.getElementById('readinessScoreDisplay').innerHTML = `
+                <p><strong>${levelDescription}</strong></p>
+                <p>نتيجة تقييم الجاهزية: <b>${totalReadinessScore}/25 (${readinessPercentage.toFixed(1)}%)</b></p>
+            `;
+            
+            document.getElementById('readinessProgress').style.width = `${readinessPercentage}%`;
+            document.getElementById('readinessPercentage').textContent = `${readinessPercentage.toFixed(1)}%`;
+            
+            // === 3. توصيات حسب الهدف ===
             const goalAdviceElement = document.getElementById('resGoalAdvice');
             let goalAdvice = "";
             
             if (goal === 'side') {
                 goalAdvice = `
                     <div class="advice-item info">
-                        <i class="fas fa-home"></i> <strong>هدفك: دخل إضافي</strong><br>
+                        <i class="fas fa-home"></i> <strong>هدفك: دخل إضافي (تحسين مستوى المعيشة)</strong><br>
                         ركز على تقليل التكاليف وزيادة سرعة العمل لتربح أكثر دون جهد إضافي.
-                        اختر المنتجات ذات الربح الأكبر.
+                        اختر المنتجات ذات الربح الأكبر. لا تحتاج لاستثمار كبير في النظامية.
                     </div>
                 `;
             } else if (goal === 'stable') {
                 goalAdvice = `
                     <div class="advice-item info">
-                        <i class="fas fa-balance-scale"></i> <strong>هدفك: مشروع مستقر</strong><br>
+                        <i class="fas fa-balance-scale"></i> <strong>هدفك: استمرار واستقرار المشروع</strong><br>
                         وازن بين الربح والنمو. ابني علاقات مع عملاء دائمين وقدم خدمة ممتازة.
+                        استثمر في توثيق العمليات الأساسية لضمان الاستمرارية.
                     </div>
                 `;
             } else {
                 goalAdvice = `
                     <div class="advice-item info">
-                        <i class="fas fa-rocket"></i> <strong>هدفك: نمو كبير</strong><br>
-                        الربح مهم، ولكن الأهم هو إظهار أن مشروعك ينمو. وثق كل شيء وابنِ نظاماً يمكن تكراره.
+                        <i class="fas fa-rocket"></i> <strong>هدفك: نمو وتوسع كبير</strong><br>
+                        الربح مهم، ولكن الأهم هو إظهار أن مشروعك ينمو بسرعة. وثق كل شيء وابنِ نظاماً يمكن تكراره.
+                        استعد للاستثمار في البنية النظامية والتحول المؤسسي.
                     </div>
                 `;
             }
             
             goalAdviceElement.innerHTML = goalAdvice;
             
+            // === 4. خطوات عملية مقترحة ===
             const actionPlanElement = document.getElementById('resActionPlan');
             let actionPlan = "";
             
@@ -898,6 +1126,78 @@
             
             actionPlanElement.innerHTML = actionPlan;
             
+            // === 5. خطة التحول المؤسسي ===
+            const transformationPlanElement = document.getElementById('transformationPlan');
+            let planHTML = '';
+            
+            planHTML += `<div class="advice-item ${readinessPercentage >= 70 ? 'success' : 'info'}">`;
+            planHTML += `<h4 style="margin-bottom: 10px;"><i class="fas fa-list-check"></i> خطة تحول مخصصة لمشروعك:</h4>`;
+            
+            const weakAreas = [];
+            if (ownershipScore <= 2) weakAreas.push("هيكل الملكية والإدارة");
+            if (docScore <= 2) weakAreas.push("توثيق العمليات");
+            if (accountingScore <= 2) weakAreas.push("النظام المحاسبي");
+            if (liquidityScore <= 2) weakAreas.push("الاستدامة المالية");
+            if (complianceScore <= 2) weakAreas.push("الالتزام القانوني");
+            
+            if (weakAreas.length > 0) {
+                planHTML += `<p><strong>المجالات التي تحتاج تحسين:</strong> ${weakAreas.join('، ')}</p>`;
+            }
+            
+            if (readinessPercentage < 40) {
+                planHTML += `
+                    <div class="advice-item">
+                        <strong>المرحلة الأولى (3-6 أشهر):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>توثيق جميع العمليات الأساسية في دليل مكتوب</li>
+                            <li>تحويل النظام المالي إلى برنامج محاسبي بسيط</li>
+                            <li>التأكد من استكمال جميع التراخيص المطلوبة</li>
+                            <li>تطوير خطة لزيادة رأس المال تدريجياً</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (readinessPercentage < 70) {
+                planHTML += `
+                    <div class="advice-item">
+                        <strong>المرحلة الانتقالية (2-4 أشهر):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>تطوير هيكل تنظيمي رسمي مع تحديد المسؤوليات</li>
+                            <li>رفع مستوى النظام المحاسبي إلى نظام متكامل</li>
+                            <li>إنشاء نظام لمراقبة الجودة ورضا العملاء</li>
+                            <li>بدء التواصل مع محامٍ للاستشارة القانونية</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                planHTML += `
+                    <div class="advice-item success">
+                        <strong>مرحلة الإعداد النهائي (1-2 شهر):</strong>
+                        <ul style="margin-top: 10px; padding-right: 20px;">
+                            <li>مراجعة جميع المستندات مع محاسب قانوني</li>
+                            <li>تجهيز دراسة جدوى محدثة للمشروع</li>
+                            <li>التواصل مع غرفة التجارة للاستفسار عن الإجراءات</li>
+                            <li>تحديد شركاء محتملين لاستكمال رأس المال إذا لزم الأمر</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            planHTML += `
+                <div class="advice-item" style="margin-top: 15px; background: #fff8e1; border-right-color: #ff9800;">
+                    <strong><i class="fas fa-exclamation-circle"></i> ملاحظات خاصة بالسياق السوري:</strong>
+                    <ul style="margin-top: 10px; padding-right: 20px;">
+                        <li>رأس المال المطلوب 50 مليون ليرة سورية يمكن تجميعه على مراحل</li>
+                        <li>تأكد من تحديث السجل التجاري والتراخيص الصناعية/التجارية</li>
+                        <li>استشر محاسباً قانونياً متخصصاً في الشركات الناشئة</li>
+                        <li>اغتنام فرص الدعم التي تقدمها غرف التجارة والصناعة</li>
+                    </ul>
+                </div>
+            `;
+            
+            planHTML += `</div>`;
+            transformationPlanElement.innerHTML = planHTML;
+            
+            // === 6. نصائح الجودة ===
             const qualityTipsElement = document.getElementById('resQualityTips');
             let qualityTips = "";
             
@@ -948,7 +1248,8 @@
             
             qualityTipsElement.innerHTML = qualityTips;
             
-            goToStep(3);
+            // الانتقال إلى الخطوة الرابعة
+            goToStep(4);
         }
         
         function resetAll() {
